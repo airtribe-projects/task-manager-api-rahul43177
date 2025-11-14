@@ -2,7 +2,8 @@ const {
   getAllTasks,
   getTaskFromId,
   createNewTask,
-  updateTaskFromId
+  updateTaskFromId,
+  deleteTaskFromId
 } = require("../controller/taskManagerController");
 
 const router = require("express").Router();
@@ -16,7 +17,8 @@ router.get("/:id", getTaskFromId);
 router.post("/" , createNewTask); 
 
 //4. Update a task with id 
-router.put("/:id" , updateTaskFromId)
+router.put("/:id" , updateTaskFromId);
 
-
+//5. Delete the task with id 
+router.delete("/:id" , deleteTaskFromId); 
 module.exports = router; 
