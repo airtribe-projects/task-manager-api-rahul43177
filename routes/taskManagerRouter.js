@@ -1,6 +1,7 @@
 const {
   getAllTasks,
   getTaskFromId,
+  createNewTask
 } = require("../controller/taskManagerController");
 
 const router = require("express").Router();
@@ -10,6 +11,9 @@ router.get("/", getAllTasks);
 //2. Get the task with ID
 router.get("/:id", getTaskFromId);
 
-module.exports = {
-  taskManagerRouter: router,
-};
+//3. Create a new task 
+router.post("/" , createNewTask); 
+
+
+
+module.exports = router; 
