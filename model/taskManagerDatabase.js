@@ -18,7 +18,7 @@ let tasksData = [
         "completed" : false 
     } ,
     {
-        "id" : 4 , 
+        "id" : 4 ,  
         "title" : "Meditate" , 
         "description" : "Spend sometime into mindfulness" , 
         "completed" : false 

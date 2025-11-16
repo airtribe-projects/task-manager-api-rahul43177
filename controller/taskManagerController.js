@@ -136,62 +136,43 @@ const updateTaskFromId = async (req, res) => {
   }
 };
 
-const deleteTaskFromId = async (req,res) => {
-  try { 
-    let {id} = req.params; 
+const deleteTaskFromId = (req , res) => {
+  try {
+    let {id} = req.params;
     if(!id) {
       return res.status(400).json({
         status : false , 
-        message : "Please enter the ID" 
+        message : "The ID is required."
       })
-    } else {
-      id = Number(id) //converting it into the number 
     }
-    // //my way -- old 
-    // //finding that id and deleting/filtering it out 
-    // //finding the id 
-    // const taskId = tasksData.find((data) => {
-    //   return data.id === id; 
-    // })
-    // if(!taskId) {
-    //   return res.status(404).json({
-    //     status : false , 
-    //     message : "The ID not found" 
-    //   })
-    // }
-    // let updatedData = tasksData.filter((singleTask) => {
-    //   return singleTask.id !== id ; 
-    // }) 
-    // tasksData = updatedData;
-
-    //new way -- 
-      //we find the index
-      //mutate the array manually using slice 
-
-    const index = tasksData.findIndex(task => task.id == id);
-    if(index == -1) {
+    id = Number(id); //string => integer
+    let index = tasksData.findIndex(task => task.id === id);
+    if(index === -1 ) {
       return res.status(404).json({
         status : false , 
-        message : "The id not found" 
+        message : `The task with id = ${id} not found.`
       })
     }
-    const removedTask = tasksData.splice(index , 1) ;
-    
-
-
+    let originalTaskLength = tasksData.length; 
+    //delete it from the database array -> splice -> remove something from the array. 
+    let deletedTask = tasksData.splice(index, 1 );  
+    let newTaskLength = tasksData.length; 
     return res.status(200).json({
       status : true , 
-      message : `The task with ID - ${id} has been deleted successfully` , 
-      totalTasks : tasksData.length ,
-      deletedTaskData : tasksData , 
-      removedTask
+      message : `The task with id = ${id} has been deleted.` , 
+      originalTaskLength , 
+      newTaskLength , 
+      deletedRecordsCount : originalTaskLength-newTaskLength , 
+      deletedTask : deletedTask[0]
     })
-    
+
+
+
   } catch(error) {
     return res.status(500).json({
       status : false , 
-      error : error.message 
-    })
+      error : error.message
+     })
   }
 }
 
