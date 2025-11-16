@@ -1,9 +1,9 @@
 let tasksData = [
     {
-        "id" : 1 , 
-        "title" : "Learn HTTP" , 
-        "description" : "Learn about HTTP and make notes" , 
-        "completed" : false 
+        "id" : 1 ,
+        "title" : "Set up environment" ,
+        "description" : "Install Node.js, npm, and git" ,
+        "completed" : true
     } ,
     {
         "id" : 2 , 

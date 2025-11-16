@@ -33,10 +33,7 @@ const getTaskFromId = async (req, res) => {
       });
     }
 
-    return res.status(200).json({
-      status: true,
-      data: taskById,
-    });
+    return res.status(200).json(taskById);
   } catch (error) {
     return res.status(500).json({
       status: false,
@@ -49,7 +46,7 @@ const createNewTask = async (req, res) => {
   try {
     const { title, description, completed = false } = req.body; //by default completed is false
 
-    if (!title.trim() || !description.trim()) {
+    if (!title || !description || !title.trim() || !description.trim()) {
       //validations
       return res.status(400).json({
         status: false,
@@ -121,15 +118,15 @@ const updateTaskFromId = async (req, res) => {
       })
     }
 
-    //updating the task -> 
-    task.title = title; 
-    task.description = description; 
-    task.completed = completed ; 
+    //updating the task ->
+    task.title = title;
+    task.description = description;
+    task.completed = completed ;
 
-    return res.status(201).json({
-      status : true , 
-      message : "The task updated successfully" , 
-      entireUpdatedTaskList : tasksData 
+    return res.status(200).json({
+      status : true ,
+      message : "The task updated successfully" ,
+      entireUpdatedTaskList : tasksData
     })
   } catch (error) {
     return res.status(500).json({
@@ -172,27 +169,21 @@ const deleteTaskFromId = async (req,res) => {
       //mutate the array manually using slice 
 
     const index = tasksData.findIndex(task => task.id == id);
-    if(index == -1) {
+    if(index === -1) {
       return res.status(404).json({
-        status : false , 
-        message : "The id not found" 
-      })
-    }
-    if(!index) {
-      return res.status(404).json({
-        status : false , 
-        message : "The ID not found"
+        status : false ,
+        message : "The id not found"
       })
     }
     const removedTask = tasksData.splice(index , 1) ;
-    
 
 
-    return res.status(201).json({
-      status : true , 
-      message : `The task with ID - ${id} has been deleted successfully` , 
+
+    return res.status(200).json({
+      status : true ,
+      message : `The task with ID - ${id} has been deleted successfully` ,
       totalTasks : tasksData.length ,
-      deletedTaskData : tasksData , 
+      deletedTaskData : tasksData ,
       removedTask
     })
     
