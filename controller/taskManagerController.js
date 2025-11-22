@@ -2,19 +2,17 @@ let tasksData = require("../model/taskManagerDatabase");
 
 const getAllTasks = async (req, res) => {
   try {
-    let {completed} = req.query; 
-    let isCompleted = completed === 'true'; 
-    console.log("isCompleted ===" , isCompleted);
+    let { completed } = req.query;
+    let isCompleted = completed === "true";
+    console.log("isCompleted ===", isCompleted);
 
-
-    if(completed === undefined) {
+    if (completed === undefined) {
       return res.status(200).json(tasksData);
     }
     let filteredData = tasksData.filter((task) => {
-      return task.completed === isCompleted 
-    })
+      return task.completed === isCompleted;
+    });
     return res.status(200).json(filteredData);
-
   } catch (error) {
     return res.status(500).json({
       status: false,
@@ -57,7 +55,7 @@ const createNewTask = async (req, res) => {
   try {
     const { title, description, completed = false } = req.body; //by default completed is false
 
-    if (!title || !description |!title.trim() || !description.trim()) {
+    if (!title || !description || !title.trim() || !description.trim()) {
       //validations
       return res.status(400).json({
         status: false,
@@ -65,7 +63,6 @@ const createNewTask = async (req, res) => {
       });
     }
 
-    //ensuring the completed is boolean
     if (typeof completed != "boolean") {
       return res.status(400).json({
         status: false,
@@ -74,7 +71,7 @@ const createNewTask = async (req, res) => {
     }
 
     const newTask = {
-      id: tasksData.length + 1 , 
+      id: tasksData.length + 1,
       title: title.trim(),
       description: description.trim(),
       completed,
@@ -111,34 +108,33 @@ const updateTaskFromId = async (req, res) => {
         message: "The title and description is required field.",
       });
     }
-    if(typeof(completed) != "boolean") {
+    if (typeof completed != "boolean") {
       return res.status(400).json({
-        status : false , 
-        message : "The completed field can only be boolean" 
-      })
+        status: false,
+        message: "The completed field can only be boolean",
+      });
     }
 
     const task = tasksData.find((data) => {
-      return data.id == id; 
-    })
+      return data.id == id;
+    });
 
-    if(!task) {
+    if (!task) {
       return res.status(404).json({
-        status : false ,  
-        message : "Task not found" 
-      })
+        status: false,
+        message: "Task not found",
+      });
     }
 
-    //updating the task -> 
-    task.title = title; 
-    task.description = description; 
-    task.completed = completed ; 
+    task.title = title;
+    task.description = description;
+    task.completed = completed;
 
     return res.status(200).json({
-      status : true , 
-      message : "The task updated successfully" , 
-      entireUpdatedTaskList : tasksData 
-    })
+      status: true,
+      message: "The task updated successfully",
+      entireUpdatedTaskList: tasksData,
+    });
   } catch (error) {
     return res.status(500).json({
       status: false,
@@ -147,50 +143,46 @@ const updateTaskFromId = async (req, res) => {
   }
 };
 
-const deleteTaskFromId = (req , res) => {
+const deleteTaskFromId = (req, res) => {
   try {
-    let {id} = req.params;
-    if(!id) {
+    let { id } = req.params;
+    if (!id) {
       return res.status(400).json({
-        status : false , 
-        message : "The ID is required."
-      })
+        status: false,
+        message: "The ID is required.",
+      });
     }
     id = Number(id); //string => integer
-    let index = tasksData.findIndex(task => task.id === id);
-    if(index === -1 ) {
+    let index = tasksData.findIndex((task) => task.id === id);
+    if (index === -1) {
       return res.status(404).json({
-        status : false , 
-        message : `The task with id = ${id} not found.`
-      })
+        status: false,
+        message: `The task with id = ${id} not found.`,
+      });
     }
-    let originalTaskLength = tasksData.length; 
-    //delete it from the database array -> splice -> remove something from the array. 
-    let deletedTask = tasksData.splice(index, 1 );  
-    let newTaskLength = tasksData.length; 
+    let originalTaskLength = tasksData.length;
+    let deletedTask = tasksData.splice(index, 1);
+    let newTaskLength = tasksData.length;
     return res.status(200).json({
-      status : true , 
-      message : `The task with id = ${id} has been deleted.` , 
-      originalTaskLength , 
-      newTaskLength , 
-      deletedRecordsCount : originalTaskLength-newTaskLength , 
-      deletedTask : deletedTask[0]
-    })
-
-
-
-  } catch(error) {
+      status: true,
+      message: `The task with id = ${id} has been deleted.`,
+      originalTaskLength,
+      newTaskLength,
+      deletedRecordsCount: originalTaskLength - newTaskLength,
+      deletedTask: deletedTask[0],
+    });
+  } catch (error) {
     return res.status(500).json({
-      status : false , 
-      error : error.message
-     })
+      status: false,
+      error: error.message,
+    });
   }
-}
+};
 
 module.exports = {
   getAllTasks,
   getTaskFromId,
   createNewTask,
-  updateTaskFromId , 
-  deleteTaskFromId
+  updateTaskFromId,
+  deleteTaskFromId,
 };
