@@ -27,13 +27,13 @@ let tasksData = [
         "id" : 5 , 
         "title" : "Revise the AirTribe DSA Class notes" , 
         "description" : "Revise the AirTribe DSA Class notes" , 
-        "completed" : false 
+        "completed" : true 
     } ,
     {
         "id" : 6 , 
         "title" : "Plan Trip" , 
         "description" : "Plan the trip with friends" , 
-        "completed" : false 
+        "completed" : true 
     } ,
     {
         "id" : 7 , 
@@ -57,7 +57,7 @@ let tasksData = [
         "id" : 10 , 
         "title" : "Personal Chores" , 
         "description" : "Complete the personal chores" , 
-        "completed" : false 
+        "completed" : true 
     } ,
 ]
 

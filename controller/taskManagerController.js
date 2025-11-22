@@ -2,8 +2,19 @@ let tasksData = require("../model/taskManagerDatabase");
 
 const getAllTasks = async (req, res) => {
   try {
-    //whatever the data is present in the tasksData -- entire data we need to send
-    res.status(200).json(tasksData);
+    let {completed} = req.query; 
+    let isCompleted = completed === 'true'; 
+    console.log("isCompleted ===" , isCompleted);
+
+
+    if(completed === undefined) {
+      return res.status(200).json(tasksData);
+    }
+    let filteredData = tasksData.filter((task) => {
+      return task.completed === isCompleted 
+    })
+    return res.status(200).json(filteredData);
+
   } catch (error) {
     return res.status(500).json({
       status: false,
